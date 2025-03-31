@@ -31,7 +31,6 @@ export function ThemeToggle() {
   return (
     <button
       type="button"
-      className="group absolute top-4 right-4 z-50 -m-2.5 p-2.5"
       onClick={() => setTheme(otherTheme)}
     >
       <span className="sr-only">Switch to {otherTheme} theme</span>

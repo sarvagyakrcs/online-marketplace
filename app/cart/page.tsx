@@ -25,53 +25,57 @@ import {
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import useCart from "@/hooks/use-cart";
-import { ThemeToggle } from "@/components/global/mode-toggle";
 import { ShoppingBagIcon } from "@heroicons/react/20/solid";
+import { Logo } from "@/components/global/logo";
+import SignInForm from "@/modules/auth/components/sign-in-component";
 
 export default function CartPage() {
-  const {
-    items: cartItems,
-    updateQuantity,
-    removeItem,
-    cartTotal,
-  } = useCart();
+  const { items: cartItems, updateQuantity, removeItem, cartTotal } = useCart();
   const [checkoutConfirm, setCheckoutConfirm] = useState(false);
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
-            Your Shopping Cart
-          </h1>
-          <Badge color="blue">
-            {cartItems.length} {cartItems.length === 1 ? "item" : "items"}
-          </Badge>
-        </div>
-
-        {cartItems.length === 0 ? (
-          <div className="rounded-xl bg-white p-8 shadow-lg ring-1 ring-zinc-950/10 dark:bg-zinc-800 dark:ring-white/10">
-          <div className="flex flex-col items-center justify-center text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-700">
-              <ShoppingBagIcon className="h-8 w-8 text-zinc-500 dark:text-zinc-300" />
-            </div>
-            
-            <h2 className="mt-6 text-xl font-semibold text-zinc-900 dark:text-white">
-              Your cart is empty
-            </h2>
-            
-            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400 max-w-xs">
-              Looks like you haven&apos;t added anything to your cart yet. Explore our products to find something you'll love!
-            </p>
-            
-            <button 
-              className="mt-6 px-4 py-2 bg-indigo-600 text-white rounded-md font-medium shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
-              onClick={() => window.location.href = '/products'}
-            >
-              Continue Shopping
-            </button>
+      <nav className="bg-white dark:bg-zinc-800 shadow-md w-full">
+        <div className="container mx-auto flex items-center justify-between px-6 py-4">
+          <Logo />
+          <div className="flex items-center space-x-6">
+            <SignInForm type="modal" modalLabel="icon" />
+            <Badge color="blue" className="px-3 py-1 text-sm font-semibold">
+              {cartItems.length} {cartItems.length === 1 ? "item" : "items"}
+            </Badge>
           </div>
         </div>
+      </nav>
+
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {cartItems.length === 0 ? (
+          <div className="rounded-xl bg-white p-8 shadow-lg ring-1 ring-zinc-950/10 dark:bg-zinc-800 dark:ring-white/10">
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-700">
+                <ShoppingBagIcon className="h-8 w-8 text-zinc-500 dark:text-zinc-300" />
+              </div>
+
+              <h2 className="mt-6 text-xl font-semibold text-zinc-900 dark:text-white">
+                Your cart is empty
+              </h2>
+
+              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400 max-w-sm">
+                Looks like you haven&apos;t added anything to your cart yet.
+                Explore our products to find something you&apos;ll love!
+              </p>
+
+              <Button className="mt-6 px-4 py-2" href={"/"}>
+                Continue Shopping
+              </Button>
+            </div>
+            <Image
+              src="/assets/empty-cart.png"
+              alt="Empty Cart"
+              width={200}
+              height={200}
+              className="mt-8 w-full max-w-sm mx-auto rounded-2xl"
+            />
+          </div>
         ) : (
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-8">
@@ -274,7 +278,6 @@ export default function CartPage() {
           </DialogActions>
         </Dialog>
       </div>
-      <ThemeToggle />
     </div>
   );
 }

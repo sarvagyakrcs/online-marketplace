@@ -75,29 +75,34 @@ model User {
 
   orders        Order[]
   reviews       Review[]
-  cart          Cart?
   products Product[]
 
   @@map("users")
 }
 
-
 model Product {
   id          String      @id @default(cuid())
   name        String
   description String?
+  shortDescription String?
   price       Decimal     @db.Decimal(10, 2)
+
+  thumbnail   String?
   images Image[]
   videos Video[]
   category    Category    @relation(fields: [categoryId], references: [id])
   categoryId  String
+  tag String?
+
   orderItems  OrderItem[]
   options Option[]
+
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   avaiavility Avaiavility @default(OUT_OF_STOCK)
   shippingTime String @default("7-10 business days")
-  cartItems   CartItem[]
+  isFeatured Boolean @default(false)
+
   reviews Review[]
   userId String
   user User @relation(fields: [userId], references: [id])
@@ -166,28 +171,6 @@ model OrderItem {
   price     Decimal  @db.Decimal(10, 2)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-model Cart {
-  id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String   @unique
-  items     CartItem[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model CartItem {
-  id        String   @id @default(cuid())
-  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  cartId    String
-  product   Product  @relation(fields: [productId], references: [id])
-  productId String
-  quantity  Int      @default(1)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([cartId, productId])
 }
 
 model Analytics {

@@ -16,6 +16,18 @@ const withMDX = nextMDX({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https" as const,
+        hostname: "tailwindcss.com",
+      },
+      {
+        protocol: "https" as const,
+        hostname: "m.media-amazon.com"
+      }
+    ]
+  }
 }
 
 export default withMDX(nextConfig)

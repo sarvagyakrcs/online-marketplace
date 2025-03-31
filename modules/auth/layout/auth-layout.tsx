@@ -1,4 +1,3 @@
-import { ThemeToggle } from '@/components/global/mode-toggle'
 import React from 'react'
 
 type Props = {
@@ -8,7 +7,6 @@ type Props = {
 const AuthLayout = ({ children }: Props) => {
   return (
     <div className="h-screen w-screen bg-background">
-        <ThemeToggle />
       {children}
     </div>
   )

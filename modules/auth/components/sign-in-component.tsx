@@ -21,7 +21,7 @@ const SignInForm = ({ type, modalLabel }: Props) => {
   if (type === "modal") {
     return (
       <>
-        <Button className={cn(modalLabel === "icon" && "p-2 rounded-full")} type="button" onClick={() => setIsOpen(true)}>
+        <Button outline className={cn(modalLabel === "icon" && "p-2 rounded-full border-none")} type="button" onClick={() => setIsOpen(true)}>
           {
             modalLabel === "text" ? "Login" :
             modalLabel === "icon" ? (

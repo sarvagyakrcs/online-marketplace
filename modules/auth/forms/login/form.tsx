@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import {Login} from "@/actions/auth";
 import { LoginSchema, LoginSchemaType } from "@/schema/auth/login-schema";
+import { Logo } from "@/components/global/logo";
 
 export default function FormSignIn() {
   const {
@@ -37,7 +38,7 @@ export default function FormSignIn() {
   };
   return (
     <div className="shadow-input mx-auto w-full max-w-md rounded-none p-4 md:p-8">
-      <h2 className="text-xl font-bold">Welcome back to {PROJECT_NAME}</h2>
+      <h2 className="text-xl font-bold">Welcome back to <Logo /></h2>
       <p className="mt-2 max-w-sm text-sm">
         Login to your precious {PROJECT_NAME.toLocaleLowerCase()} account and start your journey.
       </p>
