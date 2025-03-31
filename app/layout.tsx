@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import "@/styles/tailwind.css";
 import { Providers } from "@/components/providers/theme-providers";
 import { QueryClientProvider } from "@/components/providers/query-client-provider";
+import CartProvider from "@/providers/cart-provider";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -36,7 +37,11 @@ export default function RootLayout({
     >
       <QueryClientProvider>
         <body className="flex min-h-full flex-col bg-gray-50 dark:bg-gray-950">
-          <Providers>{children}</Providers>
+          <Providers>
+            <CartProvider>
+              {children}
+            </CartProvider>
+          </Providers>
           <Toaster position="top-center" reverseOrder={false} />
         </body>
       </QueryClientProvider>

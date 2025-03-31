@@ -73,5 +73,142 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
+  orders        Order[]
+  reviews       Review[]
+  cart          Cart?
+  products Product[]
+
   @@map("users")
+}
+
+
+model Product {
+  id          String      @id @default(cuid())
+  name        String
+  description String?
+  price       Decimal     @db.Decimal(10, 2)
+  images Image[]
+  videos Video[]
+  category    Category    @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  orderItems  OrderItem[]
+  options Option[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  avaiavility Avaiavility @default(OUT_OF_STOCK)
+  shippingTime String @default("7-10 business days")
+  cartItems   CartItem[]
+  reviews Review[]
+  userId String
+  user User @relation(fields: [userId], references: [id])
+}
+
+enum Avaiavility {
+  IN_STOCK
+  OUT_OF_STOCK
+  PRE_ORDER
+}
+
+
+model Option {
+  id String @id @default(cuid())
+  name String
+  description String?
+  product Product @relation(fields: [productId], references: [id])
+  productId String
+  inStock Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Image {
+  id String @id @default(cuid())
+  url String
+  description String?
+  isMain Boolean @default(false)
+  product Product @relation(fields: [productId], references: [id])
+  productId String
+}
+
+model Video {
+  id String @id @default(cuid())
+  url String
+  description String?
+  product Product @relation(fields: [productId], references: [id])
+  productId String
+}
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Order {
+  id         String      @id @default(cuid())
+  user       User        @relation(fields: [userId], references: [id])
+  userId     String
+  status     String      @default("pending")
+  total      Decimal     @db.Decimal(10, 2)
+  items      OrderItem[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Int
+  price     Decimal  @db.Decimal(10, 2)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Cart {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @unique
+  items     CartItem[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  cartId    String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([cartId, productId])
+}
+
+model Analytics {
+  id String @id @default(cuid())
+  loggedIn Boolean @default(false)
+  referrer String?
+  userAgent String?
+  userId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id String @id @default(cuid())
+  product Product @relation(fields: [productId], references: [id])
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  productId String
+  rating Int
+  review String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
