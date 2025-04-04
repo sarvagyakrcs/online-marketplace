@@ -4,6 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
 
+function truncateText(text: string | null, maxLength: number = 100) {
+  if (!text) return ''
+  return text.length > maxLength ? text.substring(0, maxLength) + '...' : text
+}
+
 export default async function HotProducts() {
     const products : {
         id: string;
@@ -36,7 +41,7 @@ export default async function HotProducts() {
             <h3 className="mt-4 text-sm text-gray-700">
               <Link href={`/products/${product.id}`}>
                 <span className="absolute inset-0" />
-                {product.name}
+                {truncateText(product.name, 20)}
               </Link>
             </h3>
             <div className="w-full flex justify-between">
