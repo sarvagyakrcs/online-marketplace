@@ -21,6 +21,7 @@ import { ShoppingBagIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Logo } from "@/components/global/logo";
 import SignInForm from "@/modules/auth/components/sign-in-component";
 import { Trash2Icon } from "lucide-react";
+import Checkout from "@/modules/products/components/checkout";
 
 export default function CartPage() {
   const { items: cartItems, updateQuantity, removeItem, cartTotal } = useCart();
@@ -271,17 +272,8 @@ export default function CartPage() {
               </div>
             </div>
           </DialogBody>
-          <DialogActions className="border-t border-zinc-200 dark:border-zinc-700 pt-4">
-            <Button onClick={() => setCheckoutConfirm(false)} outline>
-              Return to Cart
-            </Button>
-            <Button
-              color="blue"
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-              onClick={() => alert("Order placed successfully!")}
-            >
-              Continue to Checkout
-            </Button>
+          <DialogActions className="border-t flex items-center justify-center border-zinc-200 dark:border-zinc-700 pt-4">
+            <Checkout />
           </DialogActions>
         </Dialog>
       </div>
