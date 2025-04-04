@@ -3,7 +3,7 @@ import { StarField } from '@/components/ui/star-field'
 
 export default function NotFound() {
   return (
-    <div className="relative isolate flex flex-auto flex-col items-center justify-center overflow-hidden bg-gray-950 text-center">
+    <div className="relative h-screen isolate flex flex-auto flex-col items-center justify-center overflow-hidden bg-gray-950 text-center">
       <svg
         aria-hidden="true"
         className="absolute top-[-10vh] left-1/2 -z-10 h-[120vh] w-[120vw] min-w-[60rem] -translate-x-1/2"
