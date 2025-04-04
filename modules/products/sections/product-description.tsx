@@ -5,14 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Heading, Subheading } from "@/components/ui/heading";
 import { Text, Strong, TextLink } from "@/components/ui/text";
-import {
-  Truck,
-  RotateCcw,
-  Shield,
-  ChevronDown,
-  ChevronUp,
-  Check,
-} from "lucide-react";
+import { Truck, RotateCcw, Shield, ChevronDown, ChevronUp, Check } from 'lucide-react';
 import { Image } from "@prisma/client";
 import useCart from "@/hooks/use-cart";
 import ImageSlider from "../components/image-grid";
@@ -62,7 +55,7 @@ const ProductDescription = ({ product, images }: Props) => {
   // Detect mobile screen on mount
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 640);
     };
     
     // Initial check
@@ -209,9 +202,9 @@ const ProductDescription = ({ product, images }: Props) => {
         </div>
       )}
 
-      <div className="w-full flex flex-col lg:flex-row lg:items-start lg:gap-8 p-4 lg:p-8 pb-24 lg:pb-8">
+      <div className="w-full flex flex-col md:flex-row md:items-start md:gap-6 lg:gap-8 p-4 md:p-6 lg:p-8 pb-24 md:pb-8">
         {/* Image Slider - adaptive for both mobile and desktop */}
-        <div className={`${isMobile ? 'w-full' : 'lg:w-3/5'} mb-6 lg:mb-0`}>
+        <div className="w-full md:w-1/2 lg:w-3/5 mb-6 md:mb-0">
           <ImageSlider
             images={formattedImages}
             autoSlide={false}
@@ -224,7 +217,7 @@ const ProductDescription = ({ product, images }: Props) => {
         </div>
 
         {/* Product Details */}
-        <div className={`w-full ${isMobile ? '' : 'lg:w-2/5'}`}>
+        <div className="w-full md:w-1/2 lg:w-2/5">
           {/* Product Heading */}
           <div className="mb-6">
             <div className="flex flex-wrap items-center gap-2 mb-2">
@@ -304,9 +297,9 @@ const ProductDescription = ({ product, images }: Props) => {
             </div>
           )}
 
-          {/* Quantity Selector and Add to Cart - only show on desktop */}
+          {/* Quantity Selector and Add to Cart - show on tablet and desktop */}
           {!isMobile && (
-            <div className="mb-8 flex space-x-4 items-center justify-between w-full">
+            <div className="mb-8 flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 items-center justify-between w-full">
               <div className="flex items-center border border-zinc-200 rounded-lg w-32 dark:border-zinc-700">
                 <button
                   onClick={() => handleQuantityChange(quantity - 1)}
