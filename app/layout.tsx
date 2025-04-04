@@ -7,6 +7,7 @@ import "@/styles/tailwind.css";
 import { Providers } from "@/components/providers/theme-providers";
 import { QueryClientProvider } from "@/components/providers/query-client-provider";
 import CartProvider from "@/providers/cart-provider";
+import NetworkIndicator from "@/components/global/network-indicator";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ export default function RootLayout({
         <body className="flex min-h-full flex-col dark:bg-gray-950">
           <Providers>
             <CartProvider>
+              <NetworkIndicator />
               {children}
             </CartProvider>
           </Providers>
