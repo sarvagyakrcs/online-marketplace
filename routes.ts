@@ -41,6 +41,7 @@ export const publicRoutes = [
     '/privacy',
     'returns',
     '/terms-of-service',
-    '/api/checkout/(.*)',
-    '/success/(.*)'
+    '/api/checkout',
+    '/success/(.*)',
+    '/cart'
 ]
