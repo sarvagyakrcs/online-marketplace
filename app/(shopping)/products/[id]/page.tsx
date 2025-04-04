@@ -7,9 +7,7 @@ import { notFound } from "next/navigation";
 import React from "react";
 
 type Props = {
-  params: {
-    id: string;
-  };
+  params:  Promise<{ id: string }>
 };
 
 const ProductPage = async ({ params }: Props) => {

@@ -150,7 +150,7 @@ const AddImageForm = ({ product }: Props) => {
                             }}
                           />
                           {form.watch(`images.${index}.isMain`) && (
-                            <Badge className="absolute top-2 left-2 z-10" variant="secondary">
+                            <Badge className="absolute top-2 left-2 z-10">
                               Main Image
                             </Badge>
                           )}
@@ -162,7 +162,7 @@ const AddImageForm = ({ product }: Props) => {
               ))}
             </div>
             <div className="mt-6 flex justify-between items-center">
-              <Button type="button" variant="outline" onClick={handleAddImage}>
+              <Button type="button" onClick={handleAddImage}>
                 <PlusCircle className="h-4 w-4 mr-2" />
                 Add New Image
               </Button>
@@ -202,7 +202,7 @@ const AddImageForm = ({ product }: Props) => {
                         className="object-cover"
                       />
                       {isMain && (
-                        <Badge className="absolute top-2 left-2 z-10" variant="secondary">
+                        <Badge className="absolute top-2 left-2 z-10">
                           Main Image
                         </Badge>
                       )}
