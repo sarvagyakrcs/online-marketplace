@@ -8,23 +8,31 @@ export const {
 } = NextAuth(authConfig);
 
 export default auth((req) => {
-
     const path = req.nextUrl.pathname;
     const isLoggedIn = !!req.auth;
 
     const isApiAuthRoute = path.startsWith(apiAuthPrefix);
-    const isPublicRoute = publicRoutes.includes(path);
     const isAuthRoute = authRoutes.includes(path);
+    
+    // Check if path matches any public route pattern
+    const isPublicRoute = publicRoutes.some(route => {
+        if (route.endsWith('(.*)')) {
+            // For routes with wildcards, convert to regex pattern
+            const baseRoute = route.slice(0, -4); // Remove (.*)
+            return path.startsWith(baseRoute);
+        }
+        return route === path;
+    });
 
     if (isApiAuthRoute) {
-        return NextResponse.next();;
+        return NextResponse.next();
     }
 
     if (isAuthRoute) {
         if (isLoggedIn) {
             return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req.nextUrl));
         }
-        return NextResponse.next();;
+        return NextResponse.next();
     }
 
     if (!isPublicRoute) {
@@ -38,8 +46,6 @@ export default auth((req) => {
 
     return NextResponse.next();
 })
-
-
 
 // Optionally, don't invoke Middleware on some paths
 export const config = {

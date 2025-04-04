@@ -35,5 +35,10 @@ export const publicRoutes = [
     '/',
     '/new-verification',
     '/password/reset',
-    '/changelog'
+    '/changelog',
+    '/products/(.*)',
+    '/licence',
+    '/privacy',
+    'returns',
+    '/terms-of-service'
 ]
