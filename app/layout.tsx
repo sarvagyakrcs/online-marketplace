@@ -15,9 +15,9 @@ const font = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Commit - Open-source Git client for macOS minimalists",
+  title: "Mashno - A shopping experience like no other",
   description:
-    "Commit is a lightweight Git client you can open from anywhere any time you’re ready to commit your work with a single keyboard shortcut. It’s fast, beautiful, and completely unnecessary.",
+    "Mashno is a shopping platform that offers a unique and personalized shopping experience, combining the best of online and offline shopping.",
   alternates: {
     types: {
       "application/rss+xml": `${process.env.NEXT_PUBLIC_SITE_URL}/feed.xml`,
