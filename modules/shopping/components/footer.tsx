@@ -9,7 +9,7 @@ const navigation = {
     { name: 'Submit ticket', href: '/site/help' },
   ],
   company: [
-    { name: 'About', href: '/site' },
+    { name: 'About', href: '/terms-of-service' },
     { name: 'Contact Us', href: '/site/help' },
   ],
   legal: [

@@ -5,8 +5,9 @@ export default function Page() {
   return (
     <div className="w-full h-full">
         <HeroBanner />
-        <HotProducts />
-        <HotProducts />
+        <div className="px-10">
+          <HotProducts />
+        </div>
     </div>
   )
 }

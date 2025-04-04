@@ -5,7 +5,7 @@ import LinkedIn from "next-auth/providers/linkedin"
 import type { NextAuthConfig } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs"
-import { LoginSchema } from "./schema/auth/login-schema"
+import { LoginSchema } from "./schemas/auth/login-schema"
 import { GetUserByEmail } from "./actions/user"
 
 export default {

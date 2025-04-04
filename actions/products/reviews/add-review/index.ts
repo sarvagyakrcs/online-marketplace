@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth"
 import { prisma } from "@/lib/db/prisma"
-import { AddReviewInput, AddReviewSchema } from "@/schema/products/reviews/review-schema"
+import { AddReviewInput, AddReviewSchema } from "@/schemas/products/reviews/review-schema"
 import { revalidatePath } from "next/cache"
 
 export async function addReview(data: AddReviewInput) {

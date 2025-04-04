@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import {
   RegisterSchema,
   RegisterSchemaType,
-} from "@/schema/auth/register-schema";
+} from "@/schemas/auth/register-schema";
 import { useMutation } from "@tanstack/react-query";
 import {Register} from "@/actions/auth";
 

@@ -1,11 +1,10 @@
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Account {
@@ -28,20 +27,20 @@ model Account {
 }
 
 model VerificationToken {
-  id String @id @default(cuid())
-  email String 
-  token      String @unique
-  expires    DateTime
- 
+  id     String   @id @default(cuid())
+  email  String
+  token  String   @unique
+  expires DateTime
+
   @@unique([email, token])
 }
 
 model PasswordResetToken {
-  id String @id @default(cuid())
-  email String 
-  token      String @unique
-  expires    DateTime
- 
+  id     String   @id @default(cuid())
+  email  String
+  token  String   @unique
+  expires DateTime
+
   @@unique([email, token])
 }
 
@@ -55,57 +54,53 @@ model Session {
   @@map("sessions")
 }
 
-enum UserRole{
+enum UserRole {
   ADMIN
   USER
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name String?
-  email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
-  firstName    String?
-  lastName     String?
-  profilePic         String?
-  password      String?
-  role UserRole @default(USER)
-  accounts      Account[]
-  sessions      Session[]
-
-  orders        Order[]
-  reviews       Review[]
-  products Product[]
+  id             String    @id @default(cuid())
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime? @map("email_verified")
+  firstName      String?
+  lastName       String?
+  profilePic     String?
+  password       String?
+  role           UserRole  @default(USER)
+  accounts       Account[]
+  sessions       Session[]
+  orders         Order[]
+  reviews        Review[]
+  products       Product[]
+  analytics      Analytics[]
 
   @@map("users")
 }
 
 model Product {
-  id          String      @id @default(cuid())
-  name        String
-  description String?
+  id               String       @id @default(cuid())
+  name             String
+  description      String?
   shortDescription String?
-  price       Decimal     @db.Decimal(10, 2)
-
-  thumbnail   String?
-  images Image[]
-  videos Video[]
-  category    Category    @relation(fields: [categoryId], references: [id])
-  categoryId  String
-  tag String?
-
-  orderItems  OrderItem[]
-  options Option[]
-
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  avaiavility Avaiavility @default(OUT_OF_STOCK)
-  shippingTime String @default("7-10 business days")
-  isFeatured Boolean @default(false)
-
-  reviews Review[]
-  userId String
-  user User @relation(fields: [userId], references: [id])
+  price            Decimal      @db.Decimal(10, 2)
+  thumbnail        String?
+  images           Image[]
+  videos           Video[]
+  category         Category     @relation(fields: [categoryId], references: [id])
+  categoryId       String
+  tag              String?
+  orderItems       OrderItem[]
+  options          Option[]
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  avaiavility      Avaiavility  @default(OUT_OF_STOCK)
+  shippingTime     String       @default("7-10 business days")
+  isFeatured       Boolean      @default(false)
+  reviews          Review[]
+  userId           String
+  user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Avaiavility {
@@ -114,34 +109,34 @@ enum Avaiavility {
   PRE_ORDER
 }
 
-
 model Option {
-  id String @id @default(cuid())
-  name String
+  id          String   @id @default(cuid())
+  name        String
   description String?
-  product Product @relation(fields: [productId], references: [id])
-  productId String
-  inStock Boolean @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId   String
+  inStock     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Image {
-  id String @id @default(cuid())
-  url String
+  id          String   @id @default(cuid())
+  url         String
   description String?
-  isMain Boolean @default(false)
-  product Product @relation(fields: [productId], references: [id])
-  productId String
+  isMain      Boolean  @default(false)
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId   String
 }
 
 model Video {
-  id String @id @default(cuid())
-  url String
+  id          String   @id @default(cuid())
+  url         String
   description String?
-  product Product @relation(fields: [productId], references: [id])
-  productId String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId   String
 }
+
 model Category {
   id        String    @id @default(cuid())
   name      String    @unique
@@ -151,21 +146,21 @@ model Category {
 }
 
 model Order {
-  id         String      @id @default(cuid())
-  user       User        @relation(fields: [userId], references: [id])
-  userId     String
-  status     String      @default("pending")
-  total      Decimal     @db.Decimal(10, 2)
-  items      OrderItem[]
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  id        String      @id @default(cuid())
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  status    String      @default("pending")
+  total     Decimal     @db.Decimal(10, 2)
+  items     OrderItem[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
 
 model OrderItem {
   id        String   @id @default(cuid())
-  order     Order    @relation(fields: [orderId], references: [id])
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId   String
-  product   Product  @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
   quantity  Int
   price     Decimal  @db.Decimal(10, 2)
@@ -174,24 +169,24 @@ model OrderItem {
 }
 
 model Analytics {
-  id String @id @default(cuid())
-  loggedIn Boolean @default(false)
-  referrer String?
+  id        String   @id @default(cuid())
+  loggedIn  Boolean  @default(false)
+  referrer  String?
   userAgent String?
-  userId String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Review {
-  id String @id @default(cuid())
-  product Product @relation(fields: [productId], references: [id])
-  userId String
-  user User @relation(fields: [userId], references: [id])
+  id        String   @id @default(cuid())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   productId String
-  rating Int
-  review String
-
+  rating    Int
+  review    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

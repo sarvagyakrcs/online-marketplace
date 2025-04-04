@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import {
   AddReviewInput,
   AddReviewSchema,
-} from "@/schema/products/reviews/review-schema";
+} from "@/schemas/products/reviews/review-schema";
 import { addReview } from "@/actions/products/reviews/add-review";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";

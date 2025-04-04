@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import {Login} from "@/actions/auth";
-import { LoginSchema, LoginSchemaType } from "@/schema/auth/login-schema";
+import { LoginSchema, LoginSchemaType } from "@/schemas/auth/login-schema";
 import { Logo } from "@/components/global/logo";
 
 export default function FormSignIn() {
