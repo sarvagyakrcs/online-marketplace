@@ -11,7 +11,7 @@ import { Logo } from '@/components/global/logo';
 import { MenuIcon, XIcon } from 'lucide-react';
 import Link from 'next/link';
 import SignInForm from '@/modules/auth/components/sign-in-component';
-import { SearchDialog } from './search';
+import { SearchDialog } from './search-input';
 
 const EcommerceNavbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -36,7 +36,7 @@ const EcommerceNavbar = () => {
   
   return (
     <>
-      <header className="border-b border-zinc-200 dark:border-zinc-800">
+      <header className="border-b border-zinc-200 dark:border-zinc-800 z-40">
         <div className="mx-auto max-w-7xl px-4">
           <Navbar>
             {/* Logo */}

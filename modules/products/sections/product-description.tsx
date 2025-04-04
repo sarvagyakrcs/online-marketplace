@@ -18,6 +18,7 @@ import useCart from "@/hooks/use-cart";
 import ImageSlider from "../components/image-grid";
 import toast from "react-hot-toast";
 import { ExtendedProduct } from "../types/product";
+import { notFound } from "next/navigation";
 
 type Props = {
   product: ExtendedProduct;
@@ -42,6 +43,10 @@ const ProductDescription = ({ product, images }: Props) => {
   const [addingToCart, setAddingToCart] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+
+  if(!images || images.length === 0) {
+    notFound();
+  }
 
   // Format images for ImageSlider component
   const formattedImages = images.map(img => ({

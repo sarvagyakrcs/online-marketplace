@@ -100,9 +100,9 @@ const HeroBanner = () => {
   };
 
   return (
-    <div className="relative w-full overflow-hidden rounded-lg shadow-lg">
+    <div className="relative w-full overflow-hidden z-0 rounded-lg shadow-lg">
       {/* Main carousel */}
-      <div className="relative h-96 w-full">
+      <div className="relative h-96 w-full z-20">
         {products.map((product, index) => (
           <div
             key={product.id}
@@ -134,7 +134,7 @@ const HeroBanner = () => {
                   width={1000}
                   src={product.imageUrl}
                   alt={product.altText}
-                  className="w-full h-full hidden md:block"
+                  className="w-full h-full hidden md:block z-30"
                 />
               </div>
             </div>
