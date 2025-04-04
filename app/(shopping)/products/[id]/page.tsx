@@ -1,5 +1,7 @@
+import { auth } from "@/auth";
 import { prisma } from "@/lib/db/prisma";
 import { serializePrismaObject } from "@/lib/db/serializer";
+import Reviews from "@/modules/products/components/reviews/reviews";
 import ProductDescription from "@/modules/products/sections/product-description";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -28,7 +30,7 @@ const ProductPage = async ({ params }: Props) => {
                     select: {
                         id: true,
                         name: true,
-                        profilePic: true
+                        profilePic: true,
                     }
                 }
             }
@@ -38,9 +40,11 @@ const ProductPage = async ({ params }: Props) => {
   if(!product){
     notFound();
   }
+  const session = await auth();
   return (
     <div className="w-full">
         <ProductDescription product={serializePrismaObject(product)} images={product.images} />
+        <Reviews productId={product.id} session={session} reviews={product.reviews ?? []} />
     </div>
   )
 };

@@ -12,8 +12,10 @@ import { MenuIcon, XIcon } from 'lucide-react';
 import Link from 'next/link';
 import SignInForm from '@/modules/auth/components/sign-in-component';
 import { SearchDialog } from './search-input';
+import { Session } from 'next-auth';
+import UserButton from './user-button';
 
-const EcommerceNavbar = () => {
+const EcommerceNavbar = ({ session } : {session : Session | null}) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const {
@@ -31,8 +33,6 @@ const EcommerceNavbar = () => {
     "Jewelry",  
     "Decor"
 ];
-
-
   
   return (
     <>
@@ -64,7 +64,7 @@ const EcommerceNavbar = () => {
             <SearchDialog />
             
             {/* User Account */}
-            <SignInForm type='modal' modalLabel='icon' />
+            { session ? <UserButton session={session} /> : <SignInForm type='modal' modalLabel='icon' />}
             
             {/* Cart Button */}
             <Link href={"/cart"}>
