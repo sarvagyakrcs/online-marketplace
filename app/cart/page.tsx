@@ -3,13 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
-  Dropdown,
-  DropdownButton,
-  DropdownDivider,
-  DropdownItem,
-  DropdownMenu,
-} from "@/components/ui/dropdown";
-import {
   DescriptionDetails,
   DescriptionList,
   DescriptionTerm,
@@ -19,19 +12,22 @@ import {
   Dialog,
   DialogActions,
   DialogBody,
-  DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import useCart from "@/hooks/use-cart";
-import { ShoppingBagIcon } from "@heroicons/react/20/solid";
+import { ShoppingBagIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Logo } from "@/components/global/logo";
 import SignInForm from "@/modules/auth/components/sign-in-component";
+import { Trash2Icon } from "lucide-react";
 
 export default function CartPage() {
   const { items: cartItems, updateQuantity, removeItem, cartTotal } = useCart();
   const [checkoutConfirm, setCheckoutConfirm] = useState(false);
+  const taxRate = 0.08;
+  const taxAmount = cartTotal * taxRate;
+  const totalAmount = cartTotal + taxAmount;
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
@@ -49,32 +45,43 @@ export default function CartPage() {
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {cartItems.length === 0 ? (
-          <div className="rounded-xl bg-white p-8 shadow-lg ring-1 ring-zinc-950/10 dark:bg-zinc-800 dark:ring-white/10">
-            <div className="flex flex-col items-center justify-center text-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-700">
-                <ShoppingBagIcon className="h-8 w-8 text-zinc-500 dark:text-zinc-300" />
+          <div className="rounded-xl bg-white p-8 shadow-lg dark:bg-zinc-800">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+              <div className="flex flex-col items-center md:items-start justify-center text-center md:text-left max-w-sm">
+                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900">
+                  <ShoppingBagIcon className="h-10 w-10 text-blue-600 dark:text-blue-300" />
+                </div>
+
+                <h2 className="mt-6 text-2xl font-bold text-zinc-900 dark:text-white">
+                  Your cart is waiting to be filled
+                </h2>
+
+                <p className="mt-3 text-zinc-600 dark:text-zinc-400">
+                  Discover our curated collection of products and add your favorites to your cart.
+                </p>
+
+                <Button 
+                  className="mt-8 px-6 py-2.5 flex items-center gap-2 text-white bg-blue-600 hover:bg-blue-700" 
+                  href={"/"}
+                >
+                  Browse Products
+                  <ArrowRightIcon className="h-4 w-4" />
+                </Button>
               </div>
-
-              <h2 className="mt-6 text-xl font-semibold text-zinc-900 dark:text-white">
-                Your cart is empty
-              </h2>
-
-              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400 max-w-sm">
-                Looks like you haven&apos;t added anything to your cart yet.
-                Explore our products to find something you&apos;ll love!
-              </p>
-
-              <Button className="mt-6 px-4 py-2" href={"/"}>
-                Continue Shopping
-              </Button>
+              
+              <div className="relative">
+                <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 opacity-20 blur-sm"></div>
+                <div className="relative">
+                  <Image
+                    src="/assets/empty-cart.png"
+                    alt="Empty Cart"
+                    width={320}
+                    height={320}
+                    className="rounded-xl shadow-md"
+                  />
+                </div>
+              </div>
             </div>
-            <Image
-              src="/assets/empty-cart.png"
-              alt="Empty Cart"
-              width={200}
-              height={200}
-              className="mt-8 w-full max-w-sm mx-auto rounded-2xl"
-            />
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
@@ -109,7 +116,7 @@ export default function CartPage() {
                             </p>
                           </div>
                           <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-                            ${item.price.toFixed(2)} each
+                            ${item.price} each
                           </p>
                         </div>
                         <div className="flex flex-1 items-end justify-between text-sm">
@@ -124,6 +131,7 @@ export default function CartPage() {
                                 onClick={() =>
                                   updateQuantity(item.id, item.quantity - 1)
                                 }
+                                disabled={item.quantity <= 1}
                               >
                                 -
                               </button>
@@ -142,36 +150,9 @@ export default function CartPage() {
                             </div>
                           </div>
 
-                          <Dropdown>
-                            <DropdownButton
-                              as="button"
-                              className="text-sm text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200"
-                            >
-                              Actions
-                            </DropdownButton>
-                            <DropdownMenu>
-                              <DropdownItem
-                                onClick={() => {
-                                  const newQty = prompt(
-                                    "Enter new quantity:",
-                                    item.quantity.toString()
-                                  );
-                                  if (newQty && !isNaN(parseInt(newQty, 10))) {
-                                    updateQuantity(
-                                      item.id,
-                                      parseInt(newQty, 10)
-                                    );
-                                  }
-                                }}
-                              >
-                                Update Quantity
-                              </DropdownItem>
-                              <DropdownDivider />
-                              <DropdownItem onClick={() => removeItem(item.id)}>
-                                Remove
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </Dropdown>
+                          <Button>
+                            <Trash2Icon size={16} onClick={() => removeItem(item.id)} />
+                          </Button>
                         </div>
                       </div>
                     </li>
@@ -205,22 +186,21 @@ export default function CartPage() {
                   <DescriptionTerm>Shipping</DescriptionTerm>
                   <DescriptionDetails>Free</DescriptionDetails>
 
-                  <DescriptionTerm>Tax</DescriptionTerm>
+                  <DescriptionTerm>Tax ({(taxRate * 100).toFixed(0)}%)</DescriptionTerm>
                   <DescriptionDetails>
-                    ${(cartTotal * 0.08).toFixed(2)}
+                    ${taxAmount.toFixed(2)}
                   </DescriptionDetails>
 
                   <DescriptionTerm className="!border-t-2 pt-4 font-medium text-zinc-900 dark:text-white">
                     Total
                   </DescriptionTerm>
                   <DescriptionDetails className="!border-t-2 pt-4 font-medium text-zinc-900 dark:text-white">
-                    ${(cartTotal + cartTotal * 0.08).toFixed(2)}
+                    ${totalAmount.toFixed(2)}
                   </DescriptionDetails>
                 </DescriptionList>
 
                 <Button
-                  className="mt-6 w-full"
-                  color="blue"
+                  className="mt-6 w-full py-2.5 text-white bg-blue-600 hover:bg-blue-700 transition-colors"
                   onClick={() => setCheckoutConfirm(true)}
                 >
                   Proceed to Checkout
@@ -248,32 +228,52 @@ export default function CartPage() {
           </div>
         )}
 
-        {/* Checkout confirmation dialog */}
+        {/* Improved checkout confirmation dialog */}
         <Dialog
           open={checkoutConfirm}
           onClose={() => setCheckoutConfirm(false)}
         >
-          <DialogTitle>Complete Your Purchase</DialogTitle>
-          <DialogDescription>
-            You&apos;re about to check out with {cartItems.length}{" "}
-            {cartItems.length === 1 ? "item" : "items"} for a total of $
-            {(cartTotal + cartTotal * 0.08).toFixed(2)}.
-          </DialogDescription>
-          <DialogBody>
-            <p className="text-zinc-600 dark:text-zinc-400">
-              This is a demonstration checkout page. In a real application, you
-              would proceed to enter your payment and shipping information.
-            </p>
+          <DialogTitle>Ready to Complete Your Purchase?</DialogTitle>
+          <DialogBody className="pt-6">
+            <div className="space-y-4">
+              <div className="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4">
+                <h3 className="font-medium text-blue-800 dark:text-blue-300">Order Summary</h3>
+                <div className="mt-2 flex justify-between text-sm">
+                  <span>Items ({cartItems.length}):</span>
+                  <span className="font-medium">${cartTotal.toFixed(2)}</span>
+                </div>
+                <div className="mt-1 flex justify-between text-sm">
+                  <span>Tax:</span>
+                  <span className="font-medium">${taxAmount.toFixed(2)}</span>
+                </div>
+                <div className="mt-3 pt-3 border-t border-blue-200 dark:border-blue-700 flex justify-between font-medium">
+                  <span>Total:</span>
+                  <span className="text-lg">${totalAmount.toFixed(2)}</span>
+                </div>
+              </div>
+              
+              <p className="text-zinc-600 dark:text-zinc-400">
+                In the next step, you&apos;ll enter your shipping and payment information to complete your purchase.
+              </p>
+              
+              <div className="flex items-center space-x-2 text-sm text-zinc-500 dark:text-zinc-400">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                <span>Secure checkout with SSL encryption</span>
+              </div>
+            </div>
           </DialogBody>
-          <DialogActions>
+          <DialogActions className="border-t border-zinc-200 dark:border-zinc-700 pt-4">
             <Button onClick={() => setCheckoutConfirm(false)} outline>
-              Cancel
+              Return to Cart
             </Button>
             <Button
               color="blue"
+              className="bg-blue-600 hover:bg-blue-700 text-white"
               onClick={() => alert("Order placed successfully!")}
             >
-              Confirm Order
+              Continue to Checkout
             </Button>
           </DialogActions>
         </Dialog>

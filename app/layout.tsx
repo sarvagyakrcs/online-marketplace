@@ -36,7 +36,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <QueryClientProvider>
-        <body className="flex min-h-full flex-col bg-gray-50 dark:bg-gray-950">
+        <body className="flex min-h-full flex-col dark:bg-gray-950">
           <Providers>
             <CartProvider>
               {children}
