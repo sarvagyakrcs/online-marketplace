@@ -4,10 +4,21 @@ import { useState } from "react";
 import { Loader2, Star } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { AddReviewInput, AddReviewSchema } from "@/schema/products/reviews/review-schema";
+import {
+  AddReviewInput,
+  AddReviewSchema,
+} from "@/schema/products/reviews/review-schema";
 import { addReview } from "@/actions/products/reviews/add-review";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
-export default function AddReviewForm({ productId, closeModal }: { productId: string, closeModal: (open: boolean) => void }) {
+export default function AddReviewForm({
+  productId,
+  setIsOpen,
+}: {
+  productId: string;
+  setIsOpen: (open: boolean) => void;
+}) {
   const {
     register,
     handleSubmit,
@@ -18,31 +29,30 @@ export default function AddReviewForm({ productId, closeModal }: { productId: st
     defaultValues: { productId: productId, rating: 1, review: "" },
   });
 
-  const [rating, setRating] = useState(1);
+  const [rating, setRating] = useState(5);
 
   const addReviewMutation = useMutation({
     mutationKey: ["add-review"],
     mutationFn: addReview,
     onMutate: () => {
-        toast.loading("Adding review", {id: "add-review"})
+      toast.loading("Adding review", { id: "add-review" });
     },
     onSuccess: () => {
-        toast.success("Review added successfully", {id: "add-review"})
+      toast.success("Review added successfully", { id: "add-review" });
     },
     onError: (e) => {
-        console.log(e)  
-        toast.error("Failed to add review", {id: "add-review"})
-    }
-  })
+      console.log(e);
+      toast.error("Failed to add review", { id: "add-review" });
+    },
+  });
 
   const onSubmit = (data: AddReviewInput) => {
-    addReviewMutation.mutate(data)
-    closeModal(false)
+    addReviewMutation.mutate(data);
+    setIsOpen(false);
   };
 
   return (
-    <div className="w-xl mx-auto p-4 border rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Add a Review</h2>
+    <div className="w-xl mx-auto p-4 rounded-lg">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex items-center space-x-1">
           {[1, 2, 3, 4, 5].map((star) => (
@@ -57,18 +67,36 @@ export default function AddReviewForm({ productId, closeModal }: { productId: st
             />
           ))}
         </div>
-        {errors.rating && <p className="text-red-500">{errors.rating.message}</p>}
+        {errors.rating && (
+          <p className="text-red-500">{errors.rating.message}</p>
+        )}
 
-        <textarea
+        <Textarea
           placeholder="Write your review..."
           {...register("review")}
-          className="w-full p-2 border rounded-md"
-        ></textarea>
-        {errors.review && <p className="text-red-500">{errors.review.message}</p>}
+          className="w-full p-2 rounded-md"
+          rows={12}
+        />
+        {errors.review && (
+          <p className="text-red-500">{errors.review.message}</p>
+        )}
 
-        <button disabled={addReviewMutation.isPending} type="submit" className="w-full items-center justify-center flex p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-          {addReviewMutation.isPending ? <Loader2 className="animate-spin h-5 w-5" /> : "Submit Review"}
-        </button>
+        <div className="flex items-center justify-between">
+        <Button plain onClick={() => setIsOpen(false)}>
+            Cancel
+          </Button>
+          <Button
+            disabled={addReviewMutation.isPending}
+            type="submit"
+            color="blue"
+          >
+            {addReviewMutation.isPending ? (
+              <Loader2 className="animate-spin h-5 w-5" />
+            ) : (
+              "Submit Review"
+            )}
+          </Button>
+        </div>
       </form>
     </div>
   );

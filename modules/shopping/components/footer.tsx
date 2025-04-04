@@ -13,9 +13,10 @@ const navigation = {
     { name: 'Contact Us', href: '/site/help' },
   ],
   legal: [
-    { name: 'Terms of service', href: '/site/terms' },
-    { name: 'Privacy policy', href: '/site/privacy' },
-    { name: 'License', href: 'https://opensource.org/license/mit' },
+    { name: 'Terms of service', href: '/terms-of-service' },
+    { name: 'Return Policy', href: '/returns' },
+    { name: 'Privacy policy', href: '/privacy' },
+    { name: 'License', href: '/licence' },
   ],
   social: [
     {
@@ -71,7 +72,7 @@ const navigation = {
 
 export default function Footer() {
   return (
-    <footer className="bg-white">
+    <footer className="grainy hidden md:block">
       <div className="mx-auto max-w-7xl py-8 border-t border-gray-300 mt-28">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-8">

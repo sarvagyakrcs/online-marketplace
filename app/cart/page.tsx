@@ -28,6 +28,7 @@ export default function CartPage() {
   const taxRate = 0.08;
   const taxAmount = cartTotal * taxRate;
   const totalAmount = cartTotal + taxAmount;
+  const [promoError, setPromoError] = useState("");
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
@@ -200,7 +201,8 @@ export default function CartPage() {
                 </DescriptionList>
 
                 <Button
-                  className="mt-6 w-full py-2.5 text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+                  className="mt-6 w-full py-2.5"
+                  color="blue"
                   onClick={() => setCheckoutConfirm(true)}
                 >
                   Proceed to Checkout
@@ -221,8 +223,13 @@ export default function CartPage() {
                     className="block w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 placeholder-zinc-500 dark:border-zinc-600 dark:bg-zinc-700 dark:text-white dark:placeholder-zinc-400"
                     placeholder="Enter code"
                   />
-                  <Button plain>Apply</Button>
+                  <Button onClick={() => setPromoError("Promo code is not valid")} className="flex items-center justify-center" >Apply</Button>
                 </div>
+                  { promoError && (
+                    <p className="text-red-500 text-sm mt-2 ml-6">
+                      {promoError}
+                    </p>
+                  )}
               </div>
             </div>
           </div>

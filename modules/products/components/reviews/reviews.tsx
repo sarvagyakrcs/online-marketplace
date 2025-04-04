@@ -4,6 +4,7 @@ import type { Session } from 'next-auth';
 import { cn } from '@/lib/utils';
 import { ExtendedReviewType } from '../../types/reviews';
 import { Avatar } from '@/components/ui/avatar';
+import NoReviewsState from './no-reviews-state';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -25,7 +26,7 @@ export default function Reviews({ reviews, session, productId }: ReviewsProps) {
   });
 
   return (
-    <div className="bg-white">
+    <div className='border-t mt-6 border-gray-200'>
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-32">
         <div className="lg:col-span-4">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">Customer Reviews</h2>
@@ -78,7 +79,7 @@ export default function Reviews({ reviews, session, productId }: ReviewsProps) {
                     </div>
                   </dt>
                   <dd className="ml-3 w-10 text-right text-sm text-gray-900 tabular-nums">
-                    {Math.round((count / totalReviews) * 100)}%
+                    {totalReviews ? Math.round((count / totalReviews) * 100) : 0}%
                   </dd>
                 </div>
               ))}
@@ -98,7 +99,9 @@ export default function Reviews({ reviews, session, productId }: ReviewsProps) {
         <div className="mt-16 lg:col-span-7 lg:col-start-6 lg:mt-0">
           <h3 className="sr-only">Recent reviews</h3>
 
+
           <div className="space-y-8 p-6">
+            { reviews && reviews.length === 0 && <NoReviewsState session={session} productId={productId} />}
             {reviews.map((review) => (
               <div
                 key={review.id}
