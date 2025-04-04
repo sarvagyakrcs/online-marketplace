@@ -1,3 +1,4 @@
+"use client"
 import { Session } from 'next-auth'
 import React from 'react'
 import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from '@/components/ui/dropdown'
@@ -10,11 +11,6 @@ type Props = {
 }
 //TODO: make it functinonal
 const UserButton = ({ session }: Props) => {
-    function deleteUser() {
-        if (confirm('Are you sure you want to delete this user?')) {
-          // ...
-        }
-      }
   return (
     <Dropdown>
       <DropdownButton outline>
@@ -31,7 +27,7 @@ const UserButton = ({ session }: Props) => {
       <DropdownMenu>
         <DropdownItem href="/users/1">View</DropdownItem>
         <DropdownItem href="/users/1/edit">Edit</DropdownItem>
-        <DropdownItem onClick={() => deleteUser()}>Delete</DropdownItem>
+        <DropdownItem onClick={() => console.log("ADss")}>Logout</DropdownItem>
       </DropdownMenu>
     </Dropdown>
   )

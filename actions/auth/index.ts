@@ -1,7 +1,7 @@
 "use server"
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes"
 import { AuthError } from "next-auth"
-import { signIn } from "@/auth"
+import { signIn, signOut } from "@/auth"
 import * as z from "zod"
 import { generateVerificationToken } from "@/lib/token"
 import { sendVerificationEmail } from "@/lib/mail"
@@ -11,6 +11,15 @@ import { RegisterSchema, RegisterSchemaType } from "@/schema/auth/register-schem
 import {prisma} from "@/lib/db/prisma"
 import bcrypt from "bcryptjs"
 import { getVerificationTokenByToken } from "../token"
+
+export const signOutUser = async () => {
+    try {
+        await signOut();
+    } catch (error) {
+        console.error("Error signing out:", error);
+        throw new Error("Failed to sign out");
+    }
+}
 
 export const signInProvider = async (provider: 'google' | 'github' | 'twitter' | 'linkedin') => {
     try {
