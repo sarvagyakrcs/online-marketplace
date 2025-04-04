@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Heading, Subheading } from "@/components/ui/heading";
 import { Text, Strong, TextLink } from "@/components/ui/text";
 import { Truck, RotateCcw, Shield, ChevronDown, ChevronUp, Check } from 'lucide-react';
-import { Image } from "@prisma/client";
+import { Image, Product } from "@prisma/client";
 import useCart from "@/hooks/use-cart";
 import ImageSlider from "../components/image-grid";
 import toast from "react-hot-toast";
@@ -16,6 +16,7 @@ import { notFound } from "next/navigation";
 type Props = {
   product: ExtendedProduct;
   images: Image[];
+  basicDetails: Product;
 };
 
 const formatPrice = (price: number) => {
@@ -25,7 +26,7 @@ const formatPrice = (price: number) => {
   }).format(price);
 };
 
-const ProductDescription = ({ product, images }: Props) => {
+const ProductDescription = ({ product, images, basicDetails }: Props) => {
   const [selectedOption, setSelectedOption] = useState(
     product.options[0]?.id || ""
   );
@@ -138,7 +139,7 @@ const ProductDescription = ({ product, images }: Props) => {
   };
 
   const getAvailabilityBadge = () => {
-    switch (product.avaiavility) {
+    switch (basicDetails.avaiavility) {
       case "IN_STOCK":
         return (
           <Badge className="bg-green-500 text-white hover:bg-green-600">
@@ -163,7 +164,7 @@ const ProductDescription = ({ product, images }: Props) => {
   };
 
   // Calculate discount percentage
-  const discountPercentage = product.isFeatured
+  const discountPercentage = basicDetails.isFeatured
     ? Math.round((1 - product.price / (product.price * 1.15)) * 100)
     : 0;
 
@@ -185,7 +186,7 @@ const ProductDescription = ({ product, images }: Props) => {
           <Button
             color="rose"
             className={`py-2 px-5 rounded-xl transition-all ${addingToCart ? "opacity-70" : ""} ${addedToCart ? "bg-green-600 hover:bg-green-700" : ""}`}
-            disabled={product.avaiavility === "OUT_OF_STOCK" || addingToCart}
+            disabled={basicDetails.avaiavility === "OUT_OF_STOCK" || addingToCart}
             onClick={handleAddToCart}
           >
             {addedToCart ? (
@@ -227,7 +228,7 @@ const ProductDescription = ({ product, images }: Props) => {
               >
                 {product.category.name}
               </TextLink>
-              {product.isFeatured && (
+              {basicDetails.isFeatured && (
                 <Badge className="bg-rose-500 text-white hover:bg-rose-600">
                   {discountPercentage}% OFF
                 </Badge>
@@ -235,12 +236,12 @@ const ProductDescription = ({ product, images }: Props) => {
             </div>
 
             <Heading level={1} className="text-2xl lg:text-3xl font-bold mb-2">
-              {product.name}
+              {basicDetails.name}
             </Heading>
 
             {product.shortDescription && (
               <Text className="text-zinc-600 dark:text-zinc-300 mb-3">
-                {product.shortDescription}
+                {basicDetails.shortDescription}
               </Text>
             )}
           </div>
@@ -261,7 +262,7 @@ const ProductDescription = ({ product, images }: Props) => {
               {getAvailabilityBadge()}
               {product.avaiavility === "IN_STOCK" && (
                 <Text className="text-sm">
-                  <Strong>Ships in:</Strong> {product.shippingTime}
+                  <Strong>Ships in:</Strong> {basicDetails.shippingTime}
                 </Text>
               )}
             </div>
@@ -319,7 +320,7 @@ const ProductDescription = ({ product, images }: Props) => {
               </div>
               <Button
                 className="w-full py-3 font-medium text-base flex items-center justify-center rounded-full transition-all"
-                disabled={product.avaiavility === "OUT_OF_STOCK" || addingToCart}
+                disabled={basicDetails.avaiavility === "OUT_OF_STOCK" || addingToCart}
                 onClick={handleAddToCart}
                 color="blue"
               >
@@ -349,7 +350,7 @@ const ProductDescription = ({ product, images }: Props) => {
                 </button>
               </div>
               <span className="ml-3 text-sm text-zinc-500">
-                {product.avaiavility === "IN_STOCK" ? "In Stock" : "Out of Stock"}
+                {basicDetails.avaiavility === "IN_STOCK" ? "In Stock" : "Out of Stock"}
               </span>
             </div>
           )}
@@ -393,9 +394,9 @@ const ProductDescription = ({ product, images }: Props) => {
               </button>
               {expandedSection === "description" && (
                 <div className="mt-3 prose prose-zinc dark:prose-invert max-w-none prose-sm">
-                  {product.description ? (
+                  {basicDetails.description ? (
                     <div
-                      dangerouslySetInnerHTML={{ __html: product.description }}
+                      dangerouslySetInnerHTML={{ __html: basicDetails.description }}
                     />
                   ) : (
                     <Text className="text-zinc-600 dark:text-zinc-400">
@@ -433,7 +434,7 @@ const ProductDescription = ({ product, images }: Props) => {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-zinc-600 dark:text-zinc-400">Estimated Delivery:</span>
-                    <Strong>{product.shippingTime}</Strong>
+                    <Strong>{basicDetails.shippingTime}</Strong>
                   </div>
                   <Text className="text-xs text-zinc-500 mt-2">
                     Free shipping on all orders over $50. Orders are processed within 1-2 business days. Shipping times are estimates and are not guaranteed.

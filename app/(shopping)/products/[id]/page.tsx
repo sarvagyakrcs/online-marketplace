@@ -1,3 +1,4 @@
+import { getBasicProductDetails } from "@/actions/products/product/get-basic-details";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db/prisma";
 import { serializePrismaObject } from "@/lib/db/serializer";
@@ -12,6 +13,8 @@ type Props = {
 
 const ProductPage = async ({ params }: Props) => {
   const { id } = await params;
+  const basicDetails = await getBasicProductDetails(id);
+
   const product = await prisma.product.findUnique({
     where: {
         id
@@ -41,7 +44,7 @@ const ProductPage = async ({ params }: Props) => {
   const session = await auth();
   return (
     <div className="w-full">
-        <ProductDescription product={serializePrismaObject(product)} images={product.images} />
+        <ProductDescription basicDetails={serializePrismaObject(basicDetails)} product={serializePrismaObject(product)} images={product.images} />
         <Reviews productId={product.id} session={session} reviews={product.reviews ?? []} />
     </div>
   )
