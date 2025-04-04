@@ -14,7 +14,6 @@ export const GetFeaturedPrpducts = async ({
         }
         const featuredProducts = await prisma.product.findMany({
             where: {
-                isFeatured: true,
                 avaiavility: "IN_STOCK"
             },
             skip,
