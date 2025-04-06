@@ -4,6 +4,7 @@ import React from 'react'
 import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from '@/components/ui/dropdown'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import Image from 'next/image'
+import { signOut } from 'next-auth/react'
 
 
 type Props = {
@@ -27,7 +28,15 @@ const UserButton = ({ session }: Props) => {
       <DropdownMenu>
         <DropdownItem href="/users/1">View</DropdownItem>
         <DropdownItem href="/users/1/edit">Edit</DropdownItem>
-        <DropdownItem onClick={() => console.log("ADss")}>Logout</DropdownItem>
+        <DropdownItem
+          onClick={
+            () => {
+              signOut({ callbackUrl: '/' })
+            }
+          }
+        >
+          <span>Log out</span>
+        </DropdownItem>
       </DropdownMenu>
     </Dropdown>
   )
