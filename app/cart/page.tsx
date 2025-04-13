@@ -21,7 +21,10 @@ import { ShoppingBagIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Logo } from "@/components/global/logo";
 import SignInForm from "@/modules/auth/components/sign-in-component";
 import { Trash2Icon } from "lucide-react";
+import StripeCheckout from "@/modules/products/components/checkout/stripe-checkout";
+import RazorpayCheckout from "@/modules/products/components/checkout/razorpay-checkout";
 import Checkout from "@/modules/products/components/checkout";
+import { CheckoutSession } from "@/modules/products/types/checkout";
 
 export default function CartPage() {
   const { items: cartItems, updateQuantity, removeItem, cartTotal } = useCart();
@@ -31,6 +34,23 @@ export default function CartPage() {
   const totalAmount = cartTotal + taxAmount;
   const [promoError, setPromoError] = useState("");
 
+  const checkoutSession : CheckoutSession = {
+    line_items: cartItems.map((item) => ({
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: item.name,
+          images: [item.images[0].src],
+        },
+        unit_amount: item.price * 100,
+      },
+      quantity: item.quantity,
+    })),
+    mode: "payment",
+    success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success`,
+    cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/cart`,
+  }
+
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
       <nav className="bg-white dark:bg-zinc-800 shadow-md w-full">
@@ -38,7 +58,7 @@ export default function CartPage() {
           <Logo />
           <div className="flex items-center space-x-6">
             <SignInForm type="modal" modalLabel="icon" />
-            <Badge color="blue" className="px-3 py-1 text-sm font-semibold">
+            <Badge color="sky" className="px-3 py-1 text-sm font-semibold">
               {cartItems.length} {cartItems.length === 1 ? "item" : "items"}
             </Badge>
           </div>
@@ -203,7 +223,7 @@ export default function CartPage() {
 
                 <Button
                   className="mt-6 w-full py-2.5"
-                  color="blue"
+                  color="sky"
                   onClick={() => setCheckoutConfirm(true)}
                 >
                   Proceed to Checkout
@@ -273,7 +293,11 @@ export default function CartPage() {
             </div>
           </DialogBody>
           <DialogActions className="border-t flex items-center justify-center border-zinc-200 dark:border-zinc-700 pt-4">
-            <Checkout />
+            <div className="flex items-center justify-center space-x-4">
+              {/* <StripeCheckout /> */}
+              {/* <RazorpayCheckout /> */}
+              <Checkout checkoutSession={checkoutSession} />
+            </div>
           </DialogActions>
         </Dialog>
       </div>

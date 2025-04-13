@@ -88,7 +88,7 @@ export default function AddReviewForm({
           <Button
             disabled={addReviewMutation.isPending}
             type="submit"
-            color="blue"
+            color="sky"
           >
             {addReviewMutation.isPending ? (
               <Loader2 className="animate-spin h-5 w-5" />

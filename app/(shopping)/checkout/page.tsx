@@ -1,0 +1,20 @@
+"use client";
+import { CheckoutSession } from '@/modules/products/types/checkout';
+import { useLocalStorage } from '@mantine/hooks';
+import React from 'react'
+import CheckoutPageComponent from './_checkout-page';
+
+type Props = {}
+
+const CheckoutPage = (props: Props) => {
+  const [value] = useLocalStorage({
+    key: 'checkout-session',
+    defaultValue: {},
+  });
+  const checkoutSession = value as CheckoutSession;
+  return (
+    <CheckoutPageComponent checkoutSession={checkoutSession} />
+  )
+}
+
+export default CheckoutPage

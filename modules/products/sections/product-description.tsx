@@ -322,7 +322,7 @@ const ProductDescription = ({ product, images, basicDetails }: Props) => {
                 className="w-full py-3 font-medium text-base flex items-center justify-center rounded-full transition-all"
                 disabled={basicDetails.avaiavility === "OUT_OF_STOCK" || addingToCart}
                 onClick={handleAddToCart}
-                color="blue"
+                color="sky"
               >
                 {"Add to Cart"}
               </Button>

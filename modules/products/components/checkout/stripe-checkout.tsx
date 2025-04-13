@@ -5,8 +5,10 @@ import { cn } from '@/lib/utils'
 import { Loader } from 'lucide-react'
 import { loadStripe } from '@stripe/stripe-js'
 import React from 'react'
+import { FaStripe } from 'react-icons/fa'
+import Image from 'next/image'
 
-const Checkout = () => {
+const StripeCheckout = () => {
   const { items: cartItems } = useCart();
   const [loading, setLoading] = React.useState(false);
   const disabled = cartItems.length === 0 || loading;
@@ -23,13 +25,13 @@ const Checkout = () => {
         },
         body: cartItems.length > 0 ? JSON.stringify({ items: cartItems }) : null,
       });
-  
+
       const { sessionId } = await response.json();
       const stripe = await stripePromise;
       const { error } = await stripe!.redirectToCheckout({
         sessionId,
       });
-      if(error){
+      if (error) {
         throw new Error(error.message)
       }
     } catch (error) {
@@ -44,18 +46,15 @@ const Checkout = () => {
   }
 
   return (
-    <div className='mt-6 grid gap-4'>
-      <Button
-        className={cn(loading && "cursor-progress" ,'w-full')}
-        disabled={disabled}
-        onClick={() => onCheckout()}
-      >
-        {
-          loading ? <Loader className='h-4 w-4 animate-spin' /> : "Checkout"
-        }
-      </Button>
-    </div>
+    <Button
+      className={cn(loading && "cursor-progress", 'w-full')}
+      disabled={disabled}
+      onClick={() => onCheckout()}
+      color='indigo'
+    >
+      {loading ? <Loader className='h-4 w-4 animate-spin' /> : <FaStripe className='h-4 w-4' />}
+    </Button>
   )
 }
 
-export default Checkout
+export default StripeCheckout;
