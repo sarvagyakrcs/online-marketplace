@@ -14,7 +14,6 @@ const Checkout = () => {
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
   const onCheckout = async () => {
-    console.log('checkout')
     try {
       setLoading(true);
       const response = await fetch('/api/checkout', {

@@ -63,7 +63,6 @@ const AddImageForm = ({ product }: Props) => {
   })
 
   const onSubmit = (data: FormValues) => {
-    console.log("Submitted image data:", data.images)
     mutation.mutate(data)
   }
 

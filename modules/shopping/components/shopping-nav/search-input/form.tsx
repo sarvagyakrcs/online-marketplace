@@ -35,12 +35,7 @@ const SearchForm = ({ setIsOpen } : {setIsOpen : (arg0: boolean) => void}) => {
     initialData: [],
   })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("Input changed:", e.target.value)
-  }
-
   const handleDebouncedSearch = (value: string) => {
-    console.log("Debounced search for:", value)
     setSearchTerm(value)
   }
 
@@ -48,7 +43,6 @@ const SearchForm = ({ setIsOpen } : {setIsOpen : (arg0: boolean) => void}) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const query = formData.get("search") as string
-    console.log("Form submitted with value:", query)
     setSearchTerm(query)
   }
 
@@ -57,7 +51,7 @@ const SearchForm = ({ setIsOpen } : {setIsOpen : (arg0: boolean) => void}) => {
       <div className="w-full">
         <PlaceholdersAndVanishInput
           placeholders={placeholders}
-          onChange={handleChange}
+          onChange={() => {}}
           onDebouncedChange={handleDebouncedSearch}
           onSubmit={onSubmit}
           debounceMs={300}

@@ -41,7 +41,7 @@ export default function AddReviewForm({
       toast.success("Review added successfully", { id: "add-review" });
     },
     onError: (e) => {
-      console.log(e);
+      console.error(e);
       toast.error("Failed to add review", { id: "add-review" });
     },
   });

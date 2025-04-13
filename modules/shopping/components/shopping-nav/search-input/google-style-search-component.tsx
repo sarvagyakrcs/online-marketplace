@@ -141,7 +141,6 @@ const GoogleStyleSearch: React.FC<GoogleStyleSearchProps> = ({ onClose }) => {
     // Let the PlaceholdersAndVanishInput handle submission animations
     const formData = new FormData(e.currentTarget);
     const query = formData.get('search') as string;
-    console.log("Search submitted:", query);
     setSearchResults([]);
     setIsSearching(false);
     
