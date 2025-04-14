@@ -17,24 +17,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import LocationSelector from "@/components/ui/location-selector";
+import { placeOrderSchema, PlaceOrderSchema } from "@/schemas/checkout/place-order-schema";
+import { useMutation } from "@tanstack/react-query";
+import { CheckoutSession } from "@/modules/products/types/checkout";
+import { PlaceOrder } from "@/actions/orders";
 
-const formSchema = z.object({
-  fName: z.string().min(1, "First name is required"),
-  lName: z.string().optional(),
-  mobile: z.string().min(1, "Phone number is required"),
-  pinCode: z.string().min(1, "Postal code is required"),
-  address: z.string().min(1, "Address is required"),
-  area: z.string().min(1, "Area is required"),
-  landmark: z.string().min(1, "Landmark is required"),
-  country: z.tuple([z.string(), z.string().optional()])
-});
-
-export default function CheckoutForm() {
+export default function CheckoutForm({ checkoutSession } : { checkoutSession : CheckoutSession }) {
   const [, setCountryName] = useState<string>('');
   const [stateName, setStateName] = useState<string>('');
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<PlaceOrderSchema>({
+    resolver: zodResolver(placeOrderSchema),
     defaultValues: {
       fName: "",
       lName: "",
@@ -47,18 +40,27 @@ export default function CheckoutForm() {
     }
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      console.log(values);
-      toast(
-        <pre className="w-full max-w-sm rounded-md bg-gray-50 p-4 overflow-auto">
-          <code className="text-gray-800">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      );
-    } catch (error) {
-      console.error("Form submission error", error);
-      toast.error("Failed to submit the form. Please try again.");
+  const {
+    mutate: OrderNow,
+    isPending
+  } = useMutation({
+    mutationKey: ["place-order"],
+    mutationFn: PlaceOrder,
+    onMutate: () => {
+      toast.loading("Placing your order", { id: "place-order" });
+    },
+    onSuccess: () => {
+      toast.success("Order placed successfully", { id: "place-order" });
+    },
+    onError: (error) => {
+      toast.error("Failed to place order", { id: "place-order" });
+      console.error("Error placing order", error);
     }
+  })
+
+  function onSubmit(values: PlaceOrderSchema) {
+    OrderNow({checkoutSession, orderData: values});
+    form.reset();
   }
 
   return (

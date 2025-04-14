@@ -152,9 +152,28 @@ model Order {
   status    String      @default("pending")
   total     Decimal     @db.Decimal(10, 2)
   items     OrderItem[]
+  address   Address?     @relation(fields: [addressId], references: [id])
+  addressId String      @unique
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 }
+
+model Address {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  phone String
+  address   String
+  area      String
+  postalCode String
+  landmark   String
+  state     String
+  country   String
+  order     Order?   @relation
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 
 model OrderItem {
   id        String   @id @default(cuid())

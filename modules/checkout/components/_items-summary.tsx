@@ -1,3 +1,4 @@
+import { Divider } from '@/components/ui/divider';
 import { CheckoutSession } from '@/modules/products/types/checkout';
 import React from 'react';
 
@@ -101,6 +102,8 @@ const ItemsSummary = ({ checkoutSession }: Props) => {
               <span className="text-gray-600">Tax</span>
               <span>Calculated at checkout</span>
             </div>
+
+            <Divider />
             
             <div className="h-px bg-gray-100 my-2"></div>
             
