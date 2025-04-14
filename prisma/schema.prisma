@@ -154,6 +154,9 @@ model Order {
   items     OrderItem[]
   address   Address?     @relation(fields: [addressId], references: [id])
   addressId String      @unique
+  paymentMethod String
+  paymentId String
+  transactionId String
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 }

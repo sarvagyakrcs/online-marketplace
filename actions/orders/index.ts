@@ -4,8 +4,84 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db/prisma";
 import { CheckoutSession } from "@/modules/products/types/checkout";
 import { placeOrderSchema, PlaceOrderSchema } from "@/schemas/checkout/place-order-schema";
+import Razorpay from "razorpay";
+import crypto from "crypto";
 
-export const PlaceOrder = async ({ orderData, checkoutSession }: { orderData: PlaceOrderSchema; checkoutSession: CheckoutSession }) => {
+// Initialize Razorpay instance
+const razorpay = new Razorpay({
+  key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "",
+  key_secret: process.env.RAZORPAY_KEY_SECRET || ""
+});
+
+// Function to create Razorpay order
+export const createRazorpayOrder = async ({ 
+  checkoutSession, 
+  orderData 
+}: { 
+  checkoutSession: CheckoutSession; 
+  orderData: PlaceOrderSchema 
+}) => {
+  try {
+    // Validate order data first
+    const { data, error } = placeOrderSchema.safeParse(orderData);
+    if (error) {
+      throw new Error("Invalid order data");
+    }
+
+    // Calculate total amount from checkout session (in smallest currency unit, e.g., paise for INR)
+    const amount = checkoutSession.line_items.reduce(
+      (acc, item) => acc + item.price_data.unit_amount * item.quantity, 
+      0
+    );
+
+    // Create Razorpay order
+    const order = await razorpay.orders.create({
+      amount,
+      currency: "USD",
+      receipt: `receipt_${Date.now()}`,
+      notes: {
+        customerName: `${data.fName} ${data.lName || ''}`,
+        shippingAddress: data.address,
+        phone: data.mobile
+      }
+    });
+
+    return order;
+  } catch (error) {
+    console.error("Failed to create Razorpay order:", error);
+    throw new Error("Payment initialization failed");
+  }
+};
+
+// Function to verify Razorpay payment
+const verifyRazorpayPayment = (
+  razorpayOrderId: string,
+  razorpayPaymentId: string,
+  razorpaySignature: string
+) => {
+  const text = `${razorpayOrderId}|${razorpayPaymentId}`;
+  const generated_signature = crypto
+    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET || "")
+    .update(text)
+    .digest("hex");
+    
+  return generated_signature === razorpaySignature;
+};
+
+// Main order placement function
+export const PlaceOrder = async ({ 
+  orderData, 
+  checkoutSession, 
+  paymentDetails 
+}: { 
+  orderData: PlaceOrderSchema; 
+  checkoutSession: CheckoutSession;
+  paymentDetails?: {
+    razorpayPaymentId: string;
+    razorpayOrderId: string;
+    razorpaySignature: string;
+  }
+}) => {
     const session = await auth();
 
     const {
@@ -15,6 +91,18 @@ export const PlaceOrder = async ({ orderData, checkoutSession }: { orderData: Pl
 
     if (error) {
         throw new Error("Invalid order data");
+    }
+
+    // Verify payment if details are provided
+    if (
+      paymentDetails && 
+      !verifyRazorpayPayment(
+        paymentDetails.razorpayOrderId,
+        paymentDetails.razorpayPaymentId,
+        paymentDetails.razorpaySignature
+      )
+    ) {
+      throw new Error("Payment verification failed");
     }
 
     try {
@@ -33,12 +121,21 @@ export const PlaceOrder = async ({ orderData, checkoutSession }: { orderData: Pl
             }
         });
 
+        // Calculate order total
+        const total = checkoutSession.line_items.reduce(
+          (acc, item) => acc + item.price_data.unit_amount * item.quantity, 
+          0
+        ) / 100; // Converting from smallest unit to actual currency
+
         // Create Order
         const order = await prisma.order.create({
             data: {
-                total: checkoutSession.line_items.reduce((acc, item) => acc + item.price_data.unit_amount * item.quantity, 0) / 100, // converting from cents to actual currency
+                total,
                 userId: session?.user?.id ?? "cm9gtcj6l00000r2k1pi0inen", // fallback ID
                 addressId: address.id,
+                paymentMethod: "RAZORPAY",
+                paymentId: paymentDetails?.razorpayPaymentId || "",
+                transactionId: paymentDetails?.razorpayOrderId || "",
             }
         });
 
