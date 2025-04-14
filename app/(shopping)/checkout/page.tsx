@@ -4,9 +4,7 @@ import { useLocalStorage } from '@mantine/hooks';
 import React from 'react'
 import CheckoutPageComponent from './_checkout-page';
 
-type Props = {}
-
-const CheckoutPage = (props: Props) => {
+const CheckoutPage = () => {
   const [value] = useLocalStorage({
     key: 'checkout-session',
     defaultValue: {},

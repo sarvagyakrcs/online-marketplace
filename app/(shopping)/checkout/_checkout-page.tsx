@@ -3,28 +3,23 @@
 import Banner1 from '@/components/banner/banner-1';
 import { PermissionState, useGeolocation } from '@/hooks/use-geolocation';
 import { CheckoutSession } from '@/modules/products/types/checkout';
-import React, { useState } from 'react'
+import React from 'react'
+import CheckoutForm from './_checkout-form';
+import ItemsSummary from './_items-summary';
 
 
 type Props = {
   checkoutSession: CheckoutSession
 }
 
-const CheckoutPageComponent = (props: Props) => {
+const CheckoutPageComponent = ({ checkoutSession }: Props) => {
   const {
-    country,
-    city,
-    postalCode,
-    region,
-    loading,
-    error,
-    permissionGranted,
     permissionState,
     requestLocationPermission
   } = useGeolocation();
 
   return (
-    <div className=''>
+    <div>
       {permissionState === PermissionState.PROMPT && (
         <Banner1
           title="Location access not given"
@@ -51,8 +46,14 @@ const CheckoutPageComponent = (props: Props) => {
           onDismiss={() => { }}
         />
       )}
-
-
+      <div className="w-screen flex items-center justify-between">
+        <div className="w-1/2 px-10 md:px-24">
+          <CheckoutForm />
+        </div>
+        <div className="w-1/2">
+          <ItemsSummary checkoutSession={checkoutSession} />
+        </div>
+      </div>
     </div>
   )
 }
