@@ -2,7 +2,7 @@
 import { CheckoutSession } from '@/modules/products/types/checkout';
 import { useLocalStorage } from '@mantine/hooks';
 import React from 'react'
-import CheckoutPageComponent from './_checkout-page';
+import CheckoutPageComponent from '../../../modules/checkout/components/_checkout-page';
 
 const CheckoutPage = () => {
   const [value] = useLocalStorage({

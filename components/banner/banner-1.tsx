@@ -1,103 +1,53 @@
-"use client";
-import { XMarkIcon } from '@heroicons/react/20/solid'
-import { useState } from 'react'
-import { Button } from '../ui/button';
+import React from 'react';
 
-// Define the props that can be passed to the component
-export default function Banner1({
-  title,
-  description,
-  ctaText,
-  ctaAction,
-  bgColorFrom = "#ff80b5",
-  bgColorTo = "#9089fc",
-  onDismiss,
-  showDismissButton = true
-}: {
-  title: string
-  description: string
-  ctaText?: string
-  ctaAction?: () => void
-  bgColorFrom?: string
-  bgColorTo?: string
-  onDismiss?: () => void
-  showDismissButton?: boolean
-}) {
-  // Add state to track if the banner is visible
-  const [isVisible, setIsVisible] = useState(true)
+type BannerProps = {
+  title: string;
+  description: string;
+  ctaText?: string;
+  ctaAction?: () => void;
+  onDismiss?: () => void;
+};
 
-  // Handle the dismiss click
-  const handleDismiss = () => {
-    setIsVisible(false)
-    // Also call the onDismiss callback if provided
-    if (onDismiss) {
-      onDismiss()
-    }
-  }
-
-  // If banner is not visible, don't render anything
-  if (!isVisible) {
-    return null
-  }
-
+const Banner1 = ({ 
+  title, 
+  description, 
+  ctaText, 
+  ctaAction, 
+  onDismiss 
+}: BannerProps) => {
   return (
-    <div className="relative w-screen isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
-      <div
-        aria-hidden="true"
-        className="absolute top-1/2 left-[max(-7rem,calc(50%-52rem))] -z-10 -translate-y-1/2 transform-gpu blur-2xl"
-      >
-        <div
-          style={{
-            clipPath:
-              'polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)',
-            background: `linear-gradient(to right, ${bgColorFrom}, ${bgColorTo})`,
-          }}
-          className="aspect-577/310 w-[36.0625rem] opacity-30"
-        />
-      </div>
-      <div
-        aria-hidden="true"
-        className="absolute top-1/2 left-[max(45rem,calc(50%+8rem))] -z-10 -translate-y-1/2 transform-gpu blur-2xl"
-      >
-        <div
-          style={{
-            clipPath:
-              'polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)',
-            background: `linear-gradient(to right, ${bgColorFrom}, ${bgColorTo})`,
-          }}
-          className="aspect-577/310 w-[36.0625rem] opacity-30"
-        />
-      </div>
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <p className="text-sm/6 text-gray-900">
-          <strong className="font-semibold">{title}</strong>
-          <svg viewBox="0 0 2 2" aria-hidden="true" className="mx-2 inline size-0.5 fill-current">
-            <circle r={1} cx={1} cy={1} />
-          </svg>
-          {description}
-        </p>
-        {ctaText && ctaAction && (
-          <Button
-            onClick={ctaAction}
-            className="text-sm font-semibold leading-6 text-white bg-black hover:bg-gray-800 transition"
-          >
-            {ctaText}
-          </Button>
-        )}
-
-      </div>
-      {showDismissButton && (
-        <div className="flex flex-1 justify-end">
-          <button
-            type="button"
-            className="-m-3 p-3 focus-visible:outline-offset-[-4px]"
-            onClick={handleDismiss}
-          >
-            <span className="sr-only">Dismiss</span>
-            <XMarkIcon aria-hidden="true" className="size-5 text-gray-900" />
-          </button>
+    <div className="w-full bg-gray-50 py-3 mt-20">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-base font-medium text-gray-900 truncate">{title}</h3>
+            <p className="text-gray-600 text-xs sm:text-sm mt-0.5 line-clamp-1">{description}</p>
+          </div>
+          <div className="flex shrink-0 gap-2">
+            {ctaText && ctaAction && (
+              <button
+                onClick={ctaAction}
+                className="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+              >
+                {ctaText}
+              </button>
+            )}
+            {onDismiss && (
+              <button
+                onClick={onDismiss}
+                className="p-1.5 text-gray-500 hover:text-gray-700"
+                aria-label="Dismiss"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
         </div>
-      )}
+      </div>
     </div>
-  )
-}
+  );
+};
+
+export default Banner1;
