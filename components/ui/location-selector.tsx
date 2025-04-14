@@ -155,7 +155,7 @@ const LocationSelector = ({ disabled, onCountryChange, onStateChange }: Location
       {/* State Selector - Only shown if selected country has states */}
       {availableStates.length > 0 && (
         <Dropdown>
-          <DropdownButton as={Button} disabled={!selectedCountry} className="w-full justify-between">
+          <DropdownButton outline disabled={!selectedCountry} className="w-full justify-between flex items-center">
             {selectedState ? <span>{selectedState.name}</span> : <span>Select State...</span>}
             <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
           </DropdownButton>
@@ -164,7 +164,7 @@ const LocationSelector = ({ disabled, onCountryChange, onStateChange }: Location
               <div className="relative w-full">
                 <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
                 <Input
-                  className="w-full pl-8"
+                  className="w-full"
                   placeholder="Search state..."
                   value={stateSearchQuery}
                   onChange={(e) => setStateSearchQuery(e.target.value)}
@@ -183,7 +183,7 @@ const LocationSelector = ({ disabled, onCountryChange, onStateChange }: Location
                       handleStateSelect(state)
                       setOpenStateDropdown(false)
                     }}
-                    className="flex cursor-pointer items-center justify-between text-sm"
+                    className="flex cursor-pointer w-40 items-center justify-between text-sm"
                   >
                     <span>{state.name}</span>
                     <Check className={cn("h-4 w-4", selectedState?.id === state.id ? "opacity-100" : "opacity-0")} />

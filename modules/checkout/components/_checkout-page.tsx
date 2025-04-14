@@ -4,6 +4,8 @@ import ItemsSummary from './_items-summary';
 import { PermissionState } from '@/hooks/use-geolocation';
 import { CheckoutSession } from '@/modules/products/types/checkout';
 import toast from 'react-hot-toast';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 const useGeolocation = () => {
   const [permissionState, setPermissionState] = useState<PermissionState>(PermissionState.UNKNOWN);
@@ -39,6 +41,7 @@ const CheckoutPageComponent = ({ checkoutSession }: Props) => {
   const { permissionState, requestLocationPermission } = useGeolocation();
   const [bannerVisible, setBannerVisible] = useState(true);
   const showBanner = bannerVisible && permissionState !== PermissionState.GRANTED;
+  const router = useRouter();
 
   useEffect(() => {
     if (!showBanner) return;
@@ -63,6 +66,10 @@ const CheckoutPageComponent = ({ checkoutSession }: Props) => {
       <div className="container mx-auto px-4 sm:px-6 pt-6 pb-12 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="w-full">
+            <Button onClick={() => {
+              localStorage.clear();
+              router.push('/');
+            }}>Clear</Button>
             <CheckoutForm checkoutSession={checkoutSession} />
           </div>
           <div className="w-full">
