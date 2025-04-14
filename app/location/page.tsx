@@ -23,7 +23,7 @@ const LocationDisplay: React.FC = () => {
         <h2>Location access is required</h2>
         <p>Current permission status: {permissionState}</p>
         {permissionState === PermissionState.DENIED && (
-          <p>You've denied location access. Please enable location in your browser settings.</p>
+          <p>You&apos;ve denied location access. Please enable location in your browser settings.</p>
         )}
         <button onClick={requestLocationPermission}>
           {permissionState === PermissionState.DENIED 

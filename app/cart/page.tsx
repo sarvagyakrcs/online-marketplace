@@ -21,8 +21,6 @@ import { ShoppingBagIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Logo } from "@/components/global/logo";
 import SignInForm from "@/modules/auth/components/sign-in-component";
 import { Trash2Icon } from "lucide-react";
-import StripeCheckout from "@/modules/products/components/checkout/stripe-checkout";
-import RazorpayCheckout from "@/modules/products/components/checkout/razorpay-checkout";
 import Checkout from "@/modules/products/components/checkout";
 import { CheckoutSession } from "@/modules/products/types/checkout";
 

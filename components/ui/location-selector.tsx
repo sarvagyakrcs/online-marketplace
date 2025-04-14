@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { Check, ChevronsUpDown, Search } from "lucide-react"
-import { Button } from "./button"
 import { Input } from "./input"
 import { Dropdown, DropdownButton, DropdownMenu, DropdownItem, DropdownHeader } from "./dropdown"
 import { cn } from "@/lib/utils"
