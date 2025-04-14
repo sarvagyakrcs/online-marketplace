@@ -16,6 +16,41 @@
 ---
 
 <div style="text-align: center; margin: 3rem 0;">
+  <h2 style="font-size: 2rem; margin-bottom: 1rem;">💼 Universal Cart</h2>
+  <img src="https://pub-885bf39444c24ed3aff23a9bbf2eff6d.r2.dev/cart.png" alt="MarketMaster Admin Dashboard" style="max-width: 100%; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); margin-top: 1rem;" />
+</div>
+
+---
+
+<div style="text-align: center; margin: 3rem 0;">
+  <h2 style="font-size: 2rem; margin-bottom: 1rem;">Razorpay</h2>
+  <img src="https://pub-885bf39444c24ed3aff23a9bbf2eff6d.r2.dev/razorpay.png" alt="MarketMaster Admin Dashboard" style="max-width: 100%; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); margin-top: 1rem;" />
+</div>
+
+---
+
+<div style="text-align: center; margin: 3rem 0;">
+  <h2 style="font-size: 2rem; margin-bottom: 1rem;">💰 Seamless checkout</h2>
+  <img src="https://pub-885bf39444c24ed3aff23a9bbf2eff6d.r2.dev/checkout.png" alt="MarketMaster Admin Dashboard" style="max-width: 100%; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); margin-top: 1rem;" />
+</div>
+
+---
+
+<div style="text-align: center; margin: 3rem 0;">
+  <h2 style="font-size: 2rem; margin-bottom: 1rem;">Search for products</h2>
+  <img src="https://pub-885bf39444c24ed3aff23a9bbf2eff6d.r2.dev/search.png" alt="MarketMaster Admin Dashboard" style="max-width: 100%; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); margin-top: 1rem;" />
+</div>
+
+---
+
+<div style="text-align: center; margin: 3rem 0;">
+  <h2 style="font-size: 2rem; margin-bottom: 1rem;">Sign in tou accounts</h2>
+  <img src="https://pub-885bf39444c24ed3aff23a9bbf2eff6d.r2.dev/sign-in.png" alt="MarketMaster Admin Dashboard" style="max-width: 100%; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); margin-top: 1rem;" />
+</div>
+
+---
+
+<div style="text-align: center; margin: 3rem 0;">
   <h2 style="font-size: 2rem; margin-bottom: 1rem;">💼 Powerful Admin Dashboard</h2>
   <img src="https://pub-885bf39444c24ed3aff23a9bbf2eff6d.r2.dev/Screenshot%202025-04-14%20at%202.56.38%E2%80%AFPM.png" alt="MarketMaster Admin Dashboard" style="max-width: 100%; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); margin-top: 1rem;" />
 </div>
