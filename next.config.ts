@@ -25,6 +25,10 @@ const nextConfig = {
       {
         protocol: "https" as const,
         hostname: "m.media-amazon.com"
+      },
+      {
+        protocol: "https" as const,
+        hostname: "lh3.googleusercontent.com"
       }
     ]
   }

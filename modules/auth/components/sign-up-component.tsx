@@ -21,15 +21,14 @@ const SignUpForm = ({ type, modalLabel }: Props) => {
   if (type === "modal") {
     return (
       <>
-        <Button className={cn(modalLabel === "icon" && "p-2 rounded-full")} type="button" onClick={() => setIsOpen(true)}>
+        <Button color="dark/white" className={cn(modalLabel === "icon" && "p-2 rounded-full")} type="button" onClick={() => setIsOpen(true)}>
           {
-            modalLabel === "text" ? "Login" :
+            modalLabel === "text" ? "Sign Up" :
             modalLabel === "icon" ? (
               <IconUser size={20} />
             ) : (
               <div className="flex items-center gap-2">
-                <IconUser size={20} />
-                Login
+                Sign Up
               </div>
             )
           }

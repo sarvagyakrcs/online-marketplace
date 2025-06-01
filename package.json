@@ -41,6 +41,7 @@
     "hono": "^4.7.5",
     "ioredis": "^5.6.0",
     "lucide-react": "^0.485.0",
+    "mashno": ".",
     "mdast-util-to-string": "^4.0.0",
     "mdx-annotations": "^0.1.4",
     "motion": "^10.17.0",

@@ -1,3 +1,4 @@
+import USDToINRConverter from '@/components/global/currency-converter';
 import { Divider } from '@/components/ui/divider';
 import { CheckoutSession } from '@/modules/products/types/checkout';
 import React from 'react';
@@ -93,33 +94,13 @@ const ItemsSummary = ({ checkoutSession }: Props) => {
           
           {/* Order totals */}
           <div className="space-y-3">
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Subtotal</span>
-              <span>{formatCurrency(subtotal)}</span>
-            </div>
-            
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Tax</span>
-              <span>Calculated at checkout</span>
-            </div>
-
-            <Divider />
-            
-            <div className="h-px bg-gray-100 my-2"></div>
-            
             <div className="flex justify-between font-medium">
               <span>Total</span>
               <span>{formatCurrency(subtotal)}</span>
             </div>
+            <Divider />
             
-            <div className="pt-4">
-              <div className="flex items-center text-sm">
-                <span className="px-2.5 py-0.5 bg-green-100 text-green-800 rounded-full text-xs mr-2">
-                  {checkoutSession.mode}
-                </span>
-                <span className="text-gray-600">Payment Mode</span>
-              </div>
-            </div>
+            <USDToINRConverter />
           </div>
         </div>
       )}

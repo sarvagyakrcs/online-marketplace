@@ -14,6 +14,7 @@ import SignInForm from '@/modules/auth/components/sign-in-component';
 import { SearchDialog } from './search-input';
 import { Session } from 'next-auth';
 import UserButton from './user-button';
+import SignUpForm from '@/modules/auth/components/sign-up-component';
 
 const EcommerceNavbar = ({ session } : {session : Session | null}) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -64,7 +65,8 @@ const EcommerceNavbar = ({ session } : {session : Session | null}) => {
             <SearchDialog />
             
             {/* User Account */}
-            { session ? <UserButton session={session} /> : <SignInForm type='modal' modalLabel='icon' />}
+            { session ? <UserButton session={session} /> : <SignInForm type='modal' modalLabel='both' />}
+            { session ? <SignUpForm type='modal' modalLabel='icon' /> : <SignUpForm type='modal' modalLabel='both' />}
             
             {/* Cart Button */}
             <Link href={"/cart"}>
